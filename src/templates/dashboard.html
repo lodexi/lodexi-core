@@ -4,31 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LODEXI - Knowledge Indexing & Grounded Retrieval Engine</title>
+  <link rel="icon" type="image/png" href="/assets/lodexi-avatar.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-void: #0F172A; /* slate-900 */
-      --surface-card: #1E293B; /* slate-800 */
-      --surface-input: #334155; /* slate-700 */
-      --border: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(177, 229, 230, 0.4);
-      --cyan: #B1E5E6;
-      --cyan-glow: rgba(177, 229, 230, 0.2);
+      --bg-void: #FFFFFF; /* white */
+      --surface-card: #F8FAFC; /* slate-50 */
+      --surface-input: #FFFFFF; /* white */
+      --border: rgba(0, 0, 0, 0.1);
+      --border-focus: rgba(242, 145, 145, 0.4);
+      --cyan: #06B6D4;
+      --cyan-glow: rgba(6, 182, 212, 0.1);
       --coral: #F29191;
-      --indigo: #6366F1;
-      --mint: #10B981;
-      --mint-glow: rgba(16, 185, 129, 0.15);
-      --text-white: #F8FAFC;
-      --text-muted: #94A3B8;
+      --indigo: #4F46E5;
+      --mint: #059669;
+      --mint-glow: rgba(16, 185, 129, 0.1);
+      --text-white: #0F172A; /* main dark text */
+      --text-muted: #64748B;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg-void);
       color: var(--text-white);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Figtree', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -36,7 +37,7 @@
 
     /* Top Navigation Bar */
     header {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 16px 32px;
@@ -107,8 +108,8 @@
       outline: none;
     }
     select.tenant-select option {
-      background: #0F172A;
-      color: #FFF;
+      background: #FFFFFF;
+      color: #0F172A;
     }
 
     .docs-btn {
@@ -177,7 +178,7 @@
       background: var(--surface-card);
       border-color: var(--border);
       color: var(--cyan);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     /* Tab Content Cards */
@@ -189,7 +190,7 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 28px;
-      box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.05);
     }
 
     .form-group {
@@ -287,7 +288,7 @@
       align-items: center;
       margin-bottom: 8px;
     }
-    .result-title { font-size: 16px; font-weight: 700; color: #FFF; }
+    .result-title { font-size: 16px; font-weight: 700; color: #0F172A; }
     .score-badge {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
@@ -330,7 +331,7 @@
     .answer-text {
       font-size: 15px;
       line-height: 1.7;
-      color: #FFF;
+      color: #0F172A;
       margin-bottom: 16px;
     }
 
@@ -355,18 +356,14 @@
   <!-- Top Header -->
   <header>
     <a href="/" class="brand-group">
-      <!-- SVG Logo Icon based on user sketch -->
-      <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 25 15 C 25 15, 25 75, 25 75 C 25 85, 35 85, 35 85 L 85 85" stroke="#B1E5E6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Official LODEXI SVG Logo -->
+      <svg width="120" height="38" viewBox="0 0 320 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 25 15 C 25 15, 25 75, 25 75 C 25 85, 35 85, 35 85 L 85 85" stroke="#F29191" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M 45 35 C 45 35, 45 65, 45 65 C 45 70, 50 70, 50 70 L 75 70" stroke="#F29191" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="25" cy="15" r="4" fill="#B1E5E6"/>
-        <circle cx="85" cy="85" r="4" fill="#B1E5E6"/>
-        <circle cx="45" cy="35" r="4" fill="#F29191"/>
-        <circle cx="75" cy="70" r="4" fill="#F29191"/>
+        <text x="110" y="76" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="58" fill="#F29191">
+            L<tspan style="fill: #0F172A;">O</tspan>DEXI
+        </text>
       </svg>
-      <span style="font-size: 24px; font-weight: 900; letter-spacing: 0.1em; background: linear-gradient(to right, var(--cyan), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">
-          L<span style="-webkit-text-fill-color: #FFF;">O</span>DEXI
-      </span>
     </a>
 
     <div class="header-actions">
