@@ -1,10 +1,13 @@
 from typing import Optional
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Header
 from src.config import settings
 from src.models.tenant import TenantContext
 
 
-def authenticate_api_key(api_key: Optional[str]) -> TenantContext:
+def authenticate_api_key(
+    api_key: Optional[str] = None,
+    x_project_id: Optional[str] = Header(None, alias="X-Project-ID")
+) -> TenantContext:
     """Validate an API key and resolve its tenant context.
     
     Raises:
@@ -26,6 +29,9 @@ def authenticate_api_key(api_key: Optional[str]) -> TenantContext:
             detail="Invalid or expired API Key",
             headers={"WWW-Authenticate": "ApiKey"},
         )
+        
+    if x_project_id:
+        tenant_id = f"{tenant_id}_proj_{x_project_id}"
         
     prefix = api_key[:8] + "..." if len(api_key) >= 8 else "..."
     return TenantContext(
