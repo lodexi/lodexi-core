@@ -369,11 +369,8 @@
     <div class="header-actions">
       <div class="tenant-badge">
         <div class="tenant-dot"></div>
-        <span>Active Tenant:</span>
-        <select id="tenantSelector" class="tenant-select" onchange="switchTenant()">
-          <option value="key_jiulibrary_secret_123" data-id="jiulibrary">jiulibrary (Perpus)</option>
-          <option value="key_staffportal_secret_456" data-id="staff_portal">staff_portal (HR Staf)</option>
-        </select>
+        <span>API Key:</span>
+        <input type="password" id="apiKeyInput" placeholder="Paste Project API Key..." style="background: transparent; border: none; color: var(--text-white); outline: none; width: 220px; font-family: 'JetBrains Mono', monospace; font-size: 13px;" onchange="switchTenant()">
       </div>
 
       <a href="/docs" target="_blank" class="docs-btn">Interactive API Docs &rarr;</a>
@@ -508,19 +505,20 @@
 
   <script>
     function getApiKey() {
-      return document.getElementById('tenantSelector').value;
+      return document.getElementById('apiKeyInput').value;
     }
 
     function getActiveTenantName() {
-      const select = document.getElementById('tenantSelector');
-      return select.options[select.selectedIndex].getAttribute('data-id');
+      return "Custom Project";
     }
 
     function switchTenant() {
       // Clear previous search and ask results
       document.getElementById('searchResults').style.display = 'none';
       document.getElementById('askResults').style.display = 'none';
-      alert('Switched active tenant to: ' + getActiveTenantName() + '\nRequests are now strictly partitioned to this tenant.');
+      if (getApiKey()) {
+        alert('API Key updated.\nRequests are now securely authenticated with this key.');
+      }
     }
 
     function setTab(tabId) {
