@@ -16,7 +16,8 @@ class LLMService:
         question: str, 
         contexts: List[SearchResultItem],
         custom_api_key: Optional[str] = None,
-        custom_provider: Optional[str] = None
+        custom_provider: Optional[str] = None,
+        custom_system_prompt: Optional[str] = None
     ) -> Tuple[str, int, int]:
         """Synthesize a factual, grounded answer using retrieved contexts, or a friendly fallback.
         Returns: (answer_text, prompt_tokens, completion_tokens)
@@ -51,7 +52,7 @@ class LLMService:
             
             if not contexts:
                 # Conversational Fallback Prompt (Extremely low token cost)
-                system_prompt = (
+                system_prompt = custom_system_prompt if custom_system_prompt else (
                     "Anda adalah Asisten Lodexi AI yang sangat ramah. Pengguna memberikan sapaan atau "
                     "pertanyaan di luar konteks dokumen. "
                     "Balas sapaan mereka dengan hangat, dan ingatkan mereka dengan sopan bahwa Anda adalah asisten "
@@ -63,8 +64,10 @@ class LLMService:
                 context_block = "\n\n".join(
                     [f"[{i+1}] Dokumen: {c.title} (ID: {c.external_id})\n{c.snippet}" for i, c in enumerate(contexts)]
                 )
+                base_system_prompt = custom_system_prompt if custom_system_prompt else "Anda adalah Asisten Auditor Dokumen Resmi (Lodexi AI). Tugas Anda HANYA menjawab pertanyaan berdasarkan Konteks Dokumen yang diberikan."
+                
                 system_prompt = (
-                    "Anda adalah Asisten Auditor Dokumen Resmi (Lodexi AI). Tugas Anda HANYA menjawab pertanyaan berdasarkan Konteks Dokumen yang diberikan.\n\n"
+                    f"{base_system_prompt}\n\n"
                     "ATURAN SUPER KETAT:\n"
                     "1. Anda DILARANG KERAS menggunakan pengetahuan umum Anda sendiri. Jawaban HANYA boleh berasal dari teks yang ada di Konteks.\n"
                     "2. Jika jawaban tidak ada di dalam Konteks, Anda WAJIB menjawab: 'Maaf, informasi tersebut tidak ditemukan di dalam dokumen yang Anda unggah.'\n"

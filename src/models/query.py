@@ -39,6 +39,7 @@ class AskRequest(BaseModel):
     question: str = Field(..., min_length=3, description="User question")
     limit: int = Field(default=4, ge=1, le=10, description="Number of context chunks to ground the answer")
     category_filter: Optional[str] = Field(default=None, description="Filter knowledge domain")
+    system_prompt: Optional[str] = Field(default=None, description="Custom AI persona/instructions")
 
 
 class Citation(BaseModel):

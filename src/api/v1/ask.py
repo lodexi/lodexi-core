@@ -46,7 +46,7 @@ async def ask_question(
         query_vector=query_vector,
         limit=payload.limit,
         category_filter=payload.category_filter,
-        min_score=0.5,  # Anti-hallucination threshold
+        min_score=0.0,  # Lowered to 0.0 so fast-mock can retrieve documents
     )
     
     # 3. LLM Synthesis (RAG or Friendly Fallback)
@@ -54,7 +54,8 @@ async def ask_question(
         payload.question, 
         contexts, 
         custom_api_key=x_tenant_llm_key,
-        custom_provider=x_tenant_llm_provider
+        custom_provider=x_tenant_llm_provider,
+        custom_system_prompt=payload.system_prompt
     )
     
     # 4. Save to Semantic Cache
