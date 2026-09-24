@@ -8,7 +8,7 @@
 
 <br />
 
-## 🚀 Overview
+## Overview
 
 **LODEXI Core** is the intelligence backend of the LODEXI ecosystem. It is a decoupled, ultra-fast RAG (Retrieval-Augmented Generation) engine built with **Python**, **FastAPI**, and **Qdrant Vector Database**.
 
@@ -16,7 +16,7 @@ It provides semantic search, document ingestion, and grounded conversational QA 
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 1. **Strict Multi-Tenant Isolation**: Enforces tenant boundary partitioning via `X-API-Key` validation and Qdrant payload filtering. Zero cross-tenant data leakage.
 2. **Dual-Mode Serving**:
@@ -28,7 +28,7 @@ It provides semantic search, document ingestion, and grounded conversational QA 
 
 ---
 
-## 📁 Project Architecture
+## Project Architecture
 
 ```text
 lodexi-core/
@@ -86,7 +86,7 @@ pytest
 
 ---
 
-## 🔌 API Integration Examples
+## API Integration Examples
 
 ### Example: LODEXI Portal (PHP/Laravel)
 ```php
@@ -104,7 +104,7 @@ $citations = $response->json()['citations'];
 
 ---
 
-## 📜 License
+## License
 
 Copyright © 2026 LODEXI. All rights reserved.
 
