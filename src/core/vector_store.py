@@ -70,7 +70,7 @@ class VectorStoreService:
         embeddings: List[List[float]],
         category: Optional[str] = None,
         source_url: Optional[str] = None,
-        client_metadata: Optional[Dict[str, Any]] = None,
+        client_metadata: Optional[Any] = None,
     ) -> List[str]:
         """Index text chunks with immutable tenant_id tags into Qdrant."""
         point_ids: List[str] = []
@@ -80,6 +80,14 @@ class VectorStoreService:
             point_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{tenant_id}:{external_id}:{idx}"))
             point_ids.append(point_id)
             
+            # Support both per-chunk metadata list and global metadata dict
+            if isinstance(client_metadata, list) and idx < len(client_metadata):
+                chunk_meta = client_metadata[idx] or {}
+            elif isinstance(client_metadata, dict):
+                chunk_meta = client_metadata
+            else:
+                chunk_meta = {}
+            
             payload = {
                 "tenant_id": tenant_id,
                 "external_id": external_id,
@@ -88,7 +96,7 @@ class VectorStoreService:
                 "text": chunk_text,
                 "category": category,
                 "source_url": source_url,
-                "client_metadata": client_metadata or {},
+                "client_metadata": chunk_meta,
             }
             
             points.append(
@@ -178,6 +186,7 @@ class VectorStoreService:
                 qmodels.FieldCondition(key="tenant_id", match=qmodels.MatchValue(value=tenant_id)),
                 qmodels.FieldCondition(key="external_id", match=qmodels.MatchValue(value=external_id)),
             ]
+            
         )
         self.client.delete(
             collection_name=self.collection_name,

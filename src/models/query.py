@@ -50,6 +50,8 @@ class Citation(BaseModel):
     snippet: str
     score: float
     source_url: Optional[str] = None
+    page: Optional[int] = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 class AskResponse(BaseModel):

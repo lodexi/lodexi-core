@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     QDRANT_COLLECTION: str = "lodex_knowledge_base"
 
     # Embeddings
-    EMBEDDING_PROVIDER: Literal["fast-mock", "sentence-transformers", "openai"] = "fast-mock"
+    EMBEDDING_PROVIDER: Literal["fast-mock", "sentence-transformers", "openai", "gemini"] = "fast-mock"
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
     EMBEDDING_DIMENSION: int = 384
 
