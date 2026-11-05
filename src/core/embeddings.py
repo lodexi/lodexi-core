@@ -61,6 +61,30 @@ class SentenceTransformerEmbeddingProvider(BaseEmbeddingProvider):
         return [emb.tolist() for emb in embeddings]
 
 
+class OpenAIEmbeddingProvider(BaseEmbeddingProvider):
+    """Embedding provider using OpenAI or Gemini (OpenAI compatibility mode)."""
+    
+    def __init__(self, api_key: str, model: str = "text-embedding-3-small", base_url: str = None):
+        try:
+            from openai import OpenAI
+            kwargs = {"api_key": api_key}
+            if base_url:
+                kwargs["base_url"] = base_url
+            self.client = OpenAI(**kwargs)
+            self.model = model
+        except ImportError:
+            raise RuntimeError("openai is not installed. Run `pip install openai`")
+
+    def embed_texts(self, texts: List[str]) -> List[List[float]]:
+        if not texts:
+            return []
+        response = self.client.embeddings.create(
+            input=texts,
+            model=self.model
+        )
+        return [item.embedding for item in response.data]
+
+
 def get_embedding_provider() -> BaseEmbeddingProvider:
     """Factory function to get configured embedding provider."""
     provider_type = settings.EMBEDDING_PROVIDER.lower()
@@ -69,7 +93,27 @@ def get_embedding_provider() -> BaseEmbeddingProvider:
         try:
             return SentenceTransformerEmbeddingProvider(settings.EMBEDDING_MODEL)
         except Exception:
-            # Graceful fallback to fast-mock if model download fails or library missing
+            return FastMockEmbeddingProvider(dimension=settings.EMBEDDING_DIMENSION)
+            
+    elif provider_type == "gemini":
+        try:
+            active_key = settings.api_keys_list[0] if settings.api_keys_list else settings.OPENAI_API_KEY
+            return OpenAIEmbeddingProvider(
+                api_key=active_key,
+                model="text-embedding-004",
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+            )
+        except Exception:
+            return FastMockEmbeddingProvider(dimension=settings.EMBEDDING_DIMENSION)
+            
+    elif provider_type == "openai":
+        try:
+            active_key = settings.api_keys_list[0] if settings.api_keys_list else settings.OPENAI_API_KEY
+            return OpenAIEmbeddingProvider(
+                api_key=active_key,
+                model="text-embedding-3-small"
+            )
+        except Exception:
             return FastMockEmbeddingProvider(dimension=settings.EMBEDDING_DIMENSION)
     
     return FastMockEmbeddingProvider(dimension=settings.EMBEDDING_DIMENSION)

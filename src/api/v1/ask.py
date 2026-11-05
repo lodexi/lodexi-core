@@ -68,6 +68,8 @@ async def ask_question(
             snippet=c.snippet,
             score=c.score,
             source_url=c.source_url,
+            page=c.client_metadata.get("page") if isinstance(c.client_metadata, dict) else None,
+            metadata=c.client_metadata if isinstance(c.client_metadata, dict) else {},
         )
         for c in contexts
     ]

@@ -1,0 +1,158 @@
+{
+  "tenants": {
+    "tenant_a": {
+      "tenant_id": "jiulibrary",
+      "api_key": "key_jiulibrary_secret_123",
+      "name": "JIU Digital Library",
+      "documents": [
+        {
+          "external_id": "lib-doc-001",
+          "title": "Peraturan Peminjaman Buku dan Sirkulasi",
+          "category": "Peraturan",
+          "content": "Peminjaman buku di Perpustakaan JIU dapat dilakukan oleh mahasiswa aktif dengan masa pinjam maksimal 14 hari kalender. Mahasiswa diperbolehkan meminjam maksimal 3 eksemplar buku sekaligus. Keterlambatan pengembalian buku dikenakan denda sebesar Rp 1.000 per buku per hari keterlambatan. Jika buku hilang atau rusak, peminjam wajib mengganti buku yang sama persis atau membayar uang pengganti sebesar 2 kali lipat harga buku terkini."
+        },
+        {
+          "external_id": "lib-doc-002",
+          "title": "Pedoman Penyerahan Skripsi dan Tugas Akhir",
+          "category": "Akademik",
+          "content": "Mahasiswa yang telah lulus sidang pendadaran wajib mengunggah naskah skripsi final dalam format PDF ke repositori digital paling lambat 30 hari setelah tanggal yudisium. Berkas yang diunggah harus mencakup lembar pengesahan bertanda tangan basah atau tanda tangan digital terverifikasi. Keterlambatan penyerahan skripsi mengakibatkan tertundanya penerbitan ijazah dan transkrip nilai asli."
+        },
+        {
+          "external_id": "lib-doc-003",
+          "title": "Katalog Koleksi Buku Sejarah Politik Indonesia",
+          "category": "Katalog",
+          "content": "Koleksi khusus Sejarah Politik Indonesia mencakup buku 'Dinamika Kekuasaan dan Demokrasi Pasca Reformasi' oleh Prof. Hendra Wijaya (Rak B-12, ISBN 978-602-1234-56-7). Buku ini mengulas transisi kekuasaan, kebebasan pers, dan tantangan desentralisasi politik di Indonesia sejak tahun 1998 hingga era kontemporer. Sangat dianjurkan bagi mahasiswa ilmu komunikasi dan sosiologi politik."
+        }
+      ]
+    },
+    "tenant_b": {
+      "tenant_id": "staff_portal",
+      "api_key": "key_staffportal_secret_456",
+      "name": "Staff & HR Portal",
+      "documents": [
+        {
+          "external_id": "hr-sop-001",
+          "title": "SOP Pengajuan Cuti Tahunan dan Izin Khusus",
+          "category": "Kepegawaian",
+          "content": "Karyawan tetap berhak atas cuti tahunan sebanyak 12 hari kerja setelah memiliki masa kerja minimal 1 tahun secara terus-menerus. Pengajuan cuti wajib diajukan melalui portal kepegawaian paling lambat 3 hari kerja sebelum tanggal cuti dimulai. Apabila atasan langsung sedang melakukan dinas luar atau tidak dapat dihubungi, persetujuan cuti dialihkan sementara kepada Pelaksana Tugas (Plt) atau Manajer Unit SDM."
+        },
+        {
+          "external_id": "hr-sop-002",
+          "title": "Pedoman Biaya Perjalanan Dinas dan Transportasi",
+          "category": "Keuangan",
+          "content": "Karyawan yang ditugaskan dinas luar kota berhak mendapatkan uang harian sebesar Rp 350.000 per hari untuk biaya konsumsi dan mobilitas lokal. Tiket transportasi dan akomodasi hotel bintang tiga dipesan langsung oleh tim operasional umum. Bukti pembayaran (invoice resmi dan boarding pass) wajib diserahkan ke bagian keuangan paling lambat 5 hari kerja setelah kepulangan untuk proses rekonsiliasi kas."
+        },
+        {
+          "external_id": "hr-sop-003",
+          "title": "Aturan Jam Kerja dan Fleksibilitas Bulan Ramadan",
+          "category": "Operasional",
+          "content": "Selama bulan suci Ramadan, jam kerja reguler karyawan disesuaikan menjadi pukul 08.00 hingga 15.30 WIB dengan waktu istirahat selama 30 menit. Ketentuan keterlambatan kehadiran dihitung jika karyawan tiba setelah pukul 08.15 WIB. Dispensasi khusus diberikan bagi karyawan yang berpuasa dan menyusui untuk meninggalkan kantor 30 menit lebih awal dengan persetujuan pimpinan divisi."
+        }
+      ]
+    }
+  },
+  "test_queries": [
+    {
+      "id": "q1",
+      "tenant_id": "jiulibrary",
+      "query_text": "Berapa lama batas waktu maksimal pinjam buku untuk mahasiswa?",
+      "type": "factual",
+      "search_type": "semantic",
+      "expected_external_id": "lib-doc-001",
+      "expected_facts": ["14 hari", "maksimal 14 hari"],
+      "baseline_keyword_match": true
+    },
+    {
+      "id": "q2",
+      "tenant_id": "jiulibrary",
+      "query_text": "Sanksi atau konsekuensi apa yang didapat kalau terlambat mengembalikan buku?",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "lib-doc-001",
+      "expected_facts": ["denda", "1.000", "ganti"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q3",
+      "tenant_id": "jiulibrary",
+      "query_text": "Buku referensi yang membahas transisi demokrasi dan pemerintahan pasca orde baru",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "lib-doc-003",
+      "expected_facts": ["Dinamika Kekuasaan", "Hendra Wijaya", "1998"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q4",
+      "tenant_id": "jiulibrary",
+      "query_text": "Kapan tenggat waktu setor berkas tugas akhir setelah yudisium?",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "lib-doc-002",
+      "expected_facts": ["30 hari", "ijazah"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q5",
+      "tenant_id": "jiulibrary",
+      "query_text": "Berapa jatah cuti tahunan pegawai dan bagaimana syaratnya?",
+      "type": "cross_tenant_intrusion",
+      "search_type": "semantic",
+      "expected_external_id": null,
+      "expected_facts": [],
+      "baseline_keyword_match": false,
+      "comment": "Data belongs to staff_portal; jiulibrary MUST NOT return this!"
+    },
+    {
+      "id": "q6",
+      "tenant_id": "staff_portal",
+      "query_text": "Bagaimana prosedur minta cuti jika atasan sedang dinas luar?",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "hr-sop-001",
+      "expected_facts": ["Pelaksana Tugas", "Plt", "Manajer Unit SDM"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q7",
+      "tenant_id": "staff_portal",
+      "query_text": "Berapa besaran uang saku harian untuk dinas ke luar kota?",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "hr-sop-002",
+      "expected_facts": ["350.000", "Rp 350.000"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q8",
+      "tenant_id": "staff_portal",
+      "query_text": "Penyesuaian jam masuk dan pulang kerja saat bulan puasa",
+      "type": "descriptive",
+      "search_type": "semantic",
+      "expected_external_id": "hr-sop-003",
+      "expected_facts": ["08.00", "15.30", "Ramadan"],
+      "baseline_keyword_match": false
+    },
+    {
+      "id": "q9",
+      "tenant_id": "staff_portal",
+      "query_text": "Kapan bukti invoice perjalanan dinas harus diserahkan ke bagian keuangan?",
+      "type": "factual",
+      "search_type": "semantic",
+      "expected_external_id": "hr-sop-002",
+      "expected_facts": ["5 hari", "5 hari kerja"],
+      "baseline_keyword_match": true
+    },
+    {
+      "id": "q10",
+      "tenant_id": "staff_portal",
+      "query_text": "Koleksi buku sejarah reformasi ada di rak sebelah mana?",
+      "type": "cross_tenant_intrusion",
+      "search_type": "semantic",
+      "expected_external_id": null,
+      "expected_facts": [],
+      "baseline_keyword_match": false,
+      "comment": "Data belongs to jiulibrary; staff_portal MUST NOT return this!"
+    }
+  ]
+}

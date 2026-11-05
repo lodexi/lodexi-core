@@ -44,7 +44,11 @@ class LLMService:
             active_key = custom_api_key if custom_api_key else (random.choice(settings.api_keys_list) if settings.api_keys_list else self.api_key)
             active_provider = custom_provider if custom_provider else self.provider
             
-            kwargs = {"api_key": active_key}
+            kwargs = {
+                "api_key": active_key,
+                "timeout": 10.0,
+                "max_retries": 1,
+            }
             if active_provider == "gemini":
                 kwargs["base_url"] = "https://generativelanguage.googleapis.com/v1beta/openai/"
                 
@@ -61,9 +65,11 @@ class LLMService:
                 user_prompt = f"Pesan Pengguna:\n{question}\n\nBalasan Ramah:"
             else:
                 # Heavy RAG Prompt
-                context_block = "\n\n".join(
-                    [f"[{i+1}] Dokumen: {c.title} (ID: {c.external_id})\n{c.snippet}" for i, c in enumerate(contexts)]
-                )
+                context_items = []
+                for i, c in enumerate(contexts):
+                    page_info = f" (Halaman {c.client_metadata.get('page')})" if isinstance(c.client_metadata, dict) and c.client_metadata.get("page") else ""
+                    context_items.append(f"[{i+1}] Dokumen: {c.title}{page_info} (ID: {c.external_id})\n{c.snippet}")
+                context_block = "\n\n".join(context_items)
                 base_system_prompt = custom_system_prompt if custom_system_prompt else "Anda adalah Asisten Auditor Dokumen Resmi (Lodexi AI). Tugas Anda HANYA menjawab pertanyaan berdasarkan Konteks Dokumen yang diberikan."
                 
                 system_prompt = (
